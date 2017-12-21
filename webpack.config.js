@@ -13,5 +13,10 @@ module.exports = {
         presets: ['es2015', 'react']
       }
     }]
+  },
+  devServer: {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    }
   }
-}
+};
