@@ -367,7 +367,7 @@ import Select from './Controls/Select';
           <div>
           //コンポーネントの読み込み
             <label>Paragraphs: </label>
-              <Text value={this.state.param} />
+              <Text value={this.state.paras} />
           </div>
           <div>
           //コンポーネントの読み込み
@@ -382,4 +382,111 @@ import Select from './Controls/Select';
 
 export default App;
 
+```
+
+## コンポーネントの制御
+- Text.js,Select.jsを作り込む
+```js
+import React, { Component } from 'react';
+
+class Text extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: props.value
+    }
+  }
+
+  onChange(e){
+    this.setState({value: e.target.value},function(){
+      this.props.onChange(this.state.value);
+    });
+  }
+
+  render(){
+    return(
+      <div>
+        <input type="number" value={this.state.value} onChange={this.onChange.bind(this)}/>
+      </div>
+    )
+  }
+}
+
+export default Text;
+```
+
+- App.jsにイベントを設定
+```js
+
+//changeParas関数を設定
+changeParas(number){
+  console.log(number);
+}
+
+
+
+//省略
+<Text value={this.state.paras} onChange={this.changeParas.bind(this)}/>
+
+//これで問題なく動作していると、コンソールに番号が表示される
+
+//動いていることが確認できたら変更
+changeParas(number){
+  this.setState({paras: number}, this.getText);
+}
+
+
+```
+ー Select.jsにイベントを設定
+```js
+import React, { Component } from 'react';
+
+class Select extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: props.value
+    }
+
+  }
+
+//2イベントにsetStateで状態をセット
+  onChange(e){
+    this.setState({value: e.target.value}, function(){
+      this.props.onChange(this.state.value);
+    });
+  }
+
+  render(){
+    return(
+      <div>
+      //1イベントの設定
+        <select onChange={this.onChange.bind(this)}>
+          <option value="true">yes</option>
+          <option value="false">no</option>
+        </select>
+      </div>
+    )
+  }
+}
+
+export default Select;
+
+```
+
+- App.jsを書き換え
+```js
+
+//2showHtml関数を作成
+showHtml(x){
+  this.setState({html:x}, this.getText);
+}
+
+
+//省略
+<div>
+  <label>Include HTML: </label>
+  //1showHtml関数を定義
+    <Select value={this.state.html} onChange={this.showHtml.bind(this)} />
+</div>
 ```

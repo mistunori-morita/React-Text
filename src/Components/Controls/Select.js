@@ -9,11 +9,18 @@ class Select extends Component {
 
   }
 
+  onChange(e){
+    this.setState({value: e.target.value}, function(){
+      this.props.onChange(this.state.value);
+    });
+  }
+
   render(){
     return(
       <div>
-        <select>
-            <option value="0">select</option>
+        <select onChange={this.onChange.bind(this)}>
+          <option value="true">yes</option>
+          <option value="false">no</option>
         </select>
       </div>
     )
