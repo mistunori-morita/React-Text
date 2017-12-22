@@ -253,3 +253,133 @@ class Output extends Component {
   }
 }
 ```
+
+## cssフォルダを作成し、スタイリング
+- プロジェクト直下にcssフォルダを作って、style.cssを作成
+```css
+
+body{
+  font-family: Arial;
+  line-height: 1.5em;
+}
+
+
+.container{
+  width: 500px;
+  margin: 20px auto;
+  border: 4px solid #333;
+}
+
+
+.output{
+  height: 500px;
+  overflow: scroll;
+  padding: 5px;
+}
+
+
+form div{
+  margin: 10px 0;
+}
+
+
+```
+
+- 作成したcssをindex.htmlに<link>で読み込む
+```js
+return(
+  //ここで読み込む
+  <div className="container">
+    <h1>React Text Generator</h1>
+    <Output value={this.state.text}/>
+  </div>
+```
+
+## src/component/Controlsフォルダを作成※ベースはoutputをコピーして変更する
+- Text.js
+```js
+import React, { Component } from 'react';
+
+class Text extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: props.value
+    }
+
+  }
+
+  render(){
+    return(
+      <div>
+        <input type="text" />
+      </div>
+    )
+  }
+}
+
+export default Text;
+
+
+```
+- Select.js
+```js
+import React, { Component } from 'react';
+
+class Select extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: props.value
+    }
+
+  }
+
+  render(){
+    return(
+      <div>
+        <select>
+            <option value="0">Select</option>
+        </select>
+      </div>
+    )
+  }
+}
+
+export default Select;
+
+```
+- App.jsにインポートする
+
+```js
+//この２つをインポート
+import Text from './Controls/Text';
+import Select from './Controls/Select';
+
+
+  render(){
+    return(
+      <div className="container">
+        <h1>React Text Generator</h1>
+        <Output value={this.state.text}/>
+        <h3>Real Time Options</h3>
+        <form>
+          <div>
+          //コンポーネントの読み込み
+            <label>Paragraphs: </label>
+              <Text value={this.state.param} />
+          </div>
+          <div>
+          //コンポーネントの読み込み
+            <label>Include HTML: </label>
+              <Select value={this.state.html} />
+          </div>
+        </form>
+      </div>
+    )
+  }
+}
+
+export default App;
+
+```
